@@ -4,13 +4,14 @@ import { Button, Badge } from "react-bootstrap";
 
 export default class TaskItem extends Component {
   render() {
+    let { task, index } = this.props;
     return (
       <tr>
-        <td>1</td>
-        <td>Mark</td>
+        <td>{index}</td>
+        <td>{task.name}</td>
         <td>
           <h5>
-            <Badge variant="info">Kích Hoạt</Badge>
+            <Badge variant="info">{task.status ? "Kích Hoạt" : "Ẩn"}</Badge>
           </h5>
         </td>
         <td>

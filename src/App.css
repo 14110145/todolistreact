@@ -4,6 +4,9 @@
   color: white;
 } */
 
+.ml-2 {
+  margin-left: 2px;
+}
 .mt-10 {
   margin-top: 10px;
 }

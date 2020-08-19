@@ -5,6 +5,10 @@ import TaskItem from "./TaskItem";
 
 export default class TaskList extends Component {
   render() {
+    let { tasks } = this.props;
+    let eleTasks = tasks.map((task, index) => {
+      return <TaskItem key={task.id} index={index} task={task}></TaskItem>;
+    });
     return (
       <Table striped bordered hover variant="dark">
         <thead>
@@ -26,7 +30,6 @@ export default class TaskList extends Component {
             <td>
               <Form>
                 <Form.Group controlId="exampleForm.SelectCustom">
-                  {/* <Form.Label>Custom select</Form.Label> */}
                   <Form.Control as="select" custom>
                     <option>Tất cả</option>
                     <option>Ẩn</option>
@@ -37,7 +40,7 @@ export default class TaskList extends Component {
             </td>
             <td></td>
           </tr>
-          <TaskItem></TaskItem>
+          {eleTasks}
         </tbody>
       </Table>
     );
