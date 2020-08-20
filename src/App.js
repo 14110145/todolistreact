@@ -14,6 +14,7 @@ class App extends Component {
     super(props);
     this.state = {
       tasks: [],
+      isDisplayForm: false,
     };
   }
 
@@ -44,15 +45,42 @@ class App extends Component {
         status: true,
       },
     ];
-    console.log(Tasks);
     this.setState({
       tasks: Tasks,
     });
     localStorage.setItem("tasks", JSON.stringify(Tasks));
   };
 
-  render() {
+  onToggleForm = () => {
+    this.setState({
+      isDisplayForm: !this.state.isDisplayForm,
+    });
+  };
+
+  onCloseFormFather = () => {
+    this.setState({
+      isDisplayForm: !this.state.isDisplayForm,
+    });
+  };
+
+  onSubmitFather = (data) => {
     let { tasks } = this.state;
+    let task = {
+      id: RanDomString.generate(),
+      name: data.name_of_ten,
+      status: data.name_of_trang_thai,
+    };
+    tasks.push(task);
+    this.setState({ tasks: tasks });
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  };
+  render() {
+    let { tasks, isDisplayForm } = this.state;
+    let eleTaskForm = isDisplayForm ? (
+      <TaskForm onCloseForm={this.onCloseFormFather} onSubmit={this.onSubmitFather} />
+    ) : (
+      ""
+    );
     return (
       <div className="App">
         <Container>
@@ -61,12 +89,13 @@ class App extends Component {
           </div>
           <Row>
             <Col sm={4}>
-              <TaskForm></TaskForm>
+              {/* <TaskForm></TaskForm> */}
+              {eleTaskForm}
             </Col>
-            <Col sm={8}>
+            <Col sm={isDisplayForm ? 8 : 12}>
               <Row>
                 <Col sm={12}>
-                  <Button className="btn-add" variant="info">
+                  <Button className="btn-add" variant="info" onClick={this.onToggleForm}>
                     <span className="far fa-calendar-plus"> Thêm công việc </span>
                   </Button>
                   <Button className="btn-add ml-2" variant="danger" onClick={this.onGenerate}>

@@ -45,3 +45,7 @@
 .form-label {
   font-weight: 600;
 }
+
+.fas.fa-times-circle {
+  cursor: pointer;
+}
