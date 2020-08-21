@@ -15,6 +15,7 @@ class App extends Component {
     this.state = {
       tasks: [],
       isDisplayForm: false,
+      taskEditing: null,
     };
   }
 
@@ -63,21 +64,74 @@ class App extends Component {
     });
   };
 
+  onShowForm = () => {
+    this.setState({
+      isDisplayForm: true,
+    });
+  };
+
   onSubmitFather = (data) => {
     let { tasks } = this.state;
-    let task = {
-      id: RanDomString.generate(),
-      name: data.name_of_ten,
-      status: data.name_of_trang_thai,
-    };
-    tasks.push(task);
+    if (!data.id) {
+      let task = {
+        id: RanDomString.generate(),
+        name: data.name_of_ten,
+        status: data.name_of_trang_thai,
+      };
+      tasks.push(task);
+    } else {
+      let index = tasks.findIndex((task, index) => task.id === data.id);
+      tasks[index].id = data.id;
+      tasks[index].name = data.name_of_ten;
+      tasks[index].status = data.name_of_trang_thai;
+    }
     this.setState({ tasks: tasks });
     localStorage.setItem("tasks", JSON.stringify(tasks));
   };
+
+  onUpdateStatusFather = (id) => {
+    let { tasks } = this.state;
+    tasks.forEach((task, index) => {
+      if (task.id === id) {
+        tasks[index].status = !tasks[index].status;
+      }
+      this.setState({
+        tasks: tasks,
+      });
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    });
+  };
+
+  onDelete = (id) => {
+    let { tasks } = this.state;
+    tasks.forEach((task, index) => {
+      if (task.id === id) {
+        tasks.splice(index, 1);
+      }
+      this.setState({
+        tasks: tasks,
+      });
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    });
+  };
+
+  onUpdate = async (id) => {
+    let { tasks } = this.state;
+    let index = tasks.findIndex((task) => task.id === id);
+    await this.setState({
+      taskEditing: tasks[index],
+    });
+    this.onShowForm();
+  };
+
   render() {
-    let { tasks, isDisplayForm } = this.state;
+    let { tasks, isDisplayForm, taskEditing } = this.state;
     let eleTaskForm = isDisplayForm ? (
-      <TaskForm onCloseForm={this.onCloseFormFather} onSubmit={this.onSubmitFather} />
+      <TaskForm
+        onCloseForm={this.onCloseFormFather}
+        onSubmit={this.onSubmitFather}
+        task={taskEditing}
+      />
     ) : (
       ""
     );
@@ -110,7 +164,12 @@ class App extends Component {
               <br />
               <Row>
                 <Col sm={12}>
-                  <TaskList tasks={tasks}></TaskList>
+                  <TaskList
+                    tasks={tasks}
+                    onUpdateStatus={this.onUpdateStatusFather}
+                    onDelete={this.onDelete}
+                    onUpdate={this.onUpdate}
+                  ></TaskList>
                 </Col>
               </Row>
             </Col>

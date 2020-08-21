@@ -5,10 +5,33 @@ export default class TaskForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: "",
       name_of_ten: "",
       name_of_trang_thai: true,
     };
   }
+
+  // componentDidMount() {
+  //   if (this.props.task) {
+  //     this.setState({
+  //       id: this.props.task.id,
+  //       name_of_ten: this.props.task.name,
+  //       name_of_trang_thai: this.props.task.status,
+  //     });
+  //   }
+  // }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps.task);
+    if (nextProps.task) {
+      this.setState({
+        id: nextProps.task.id,
+        name_of_ten: nextProps.task.name,
+        name_of_trang_thai: nextProps.task.status,
+      });
+    }
+  }
+
   onCloseFormChild = () => {
     return this.props.onCloseForm();
   };
@@ -41,10 +64,11 @@ export default class TaskForm extends Component {
   };
 
   render() {
+    let { id } = this.state;
     return (
       <Card>
         <Card.Header>
-          <span>Thêm Công Việc</span>
+          <span>{id ? "Cập nhật công việc" : "Thêm công việc"}</span>
           <span onClick={this.onCloseFormChild}>
             <i className="fas fa-times-circle"></i>
           </span>

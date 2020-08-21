@@ -4,10 +4,23 @@ import { Form, InputGroup, FormControl, Table } from "react-bootstrap";
 import TaskItem from "./TaskItem";
 
 export default class TaskList extends Component {
+  onUpdateStatusChild = (id) => {
+    this.props.onUpdateStatus(id);
+  };
+
   render() {
     let { tasks } = this.props;
     let eleTasks = tasks.map((task, index) => {
-      return <TaskItem key={task.id} index={index} task={task}></TaskItem>;
+      return (
+        <TaskItem
+          key={task.id}
+          index={index}
+          task={task}
+          onUpdateStatusChild={this.onUpdateStatusChild}
+          onDelete={this.props.onDelete}
+          onUpdate={this.props.onUpdate}
+        ></TaskItem>
+      );
     });
     return (
       <Table striped bordered hover variant="dark">

@@ -49,3 +49,8 @@
 .fas.fa-times-circle {
   cursor: pointer;
 }
+
+.badge.badge-info,
+.badge.badge-danger {
+  cursor: pointer;
+}
