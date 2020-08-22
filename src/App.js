@@ -16,6 +16,10 @@ class App extends Component {
       tasks: [],
       isDisplayForm: false,
       taskEditing: null,
+      filter: {
+        name: "",
+        status: -1,
+      },
     };
   }
 
@@ -111,8 +115,30 @@ class App extends Component {
     });
   };
 
+  onFilter = (filterName, filterStatus) => {
+    filterStatus = parseInt(filterStatus);
+    this.setState({
+      filter: {
+        name: filterName,
+        status: filterStatus,
+      },
+    });
+  };
+
   render() {
-    let { tasks, isDisplayForm, taskEditing } = this.state;
+    let { tasks, isDisplayForm, taskEditing, filter } = this.state;
+    if (filter.name) {
+      tasks = tasks.filter((task) => {
+        return task.name.toLowerCase().indexOf(filter.name.toLowerCase()) !== -1;
+      });
+    }
+    tasks = tasks.filter((task) => {
+      if (filter.status === -1) {
+        return task;
+      } else {
+        return task.status === (filter.status === 1 ? true : false);
+      }
+    });
     let eleTaskForm = isDisplayForm ? (
       <TaskForm
         onCloseForm={this.onCloseFormFather}
@@ -150,6 +176,7 @@ class App extends Component {
                     onUpdateStatus={this.onUpdateStatusFather}
                     onDelete={this.onDelete}
                     onUpdate={this.onUpdate}
+                    onFilter={this.onFilter}
                   ></TaskList>
                 </Col>
               </Row>
