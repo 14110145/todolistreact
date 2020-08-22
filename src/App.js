@@ -28,45 +28,25 @@ class App extends Component {
     }
   }
 
-  onGenerate = () => {
-    let Tasks = [
-      {
-        id: RanDomString.generate(),
-        name: "Học lập trình",
-        status: true,
-      },
-      {
-        id: RanDomString.generate(),
-        name: "Xem phim",
-        status: false,
-      },
-      {
-        id: RanDomString.generate(),
-        name: "Đi ngủ",
-        status: true,
-      },
-    ];
-    this.setState({
-      tasks: Tasks,
-    });
-    localStorage.setItem("tasks", JSON.stringify(Tasks));
-  };
-
+  //Component Btn-Them cong viec**********************
   onToggleForm = () => {
-    this.setState({
-      isDisplayForm: !this.state.isDisplayForm,
-    });
+    if (this.state.isDisplayForm && this.state.taskEditing) {
+      this.setState({
+        isDisplayForm: true,
+        taskEditing: null,
+      });
+    } else {
+      this.setState({
+        isDisplayForm: !this.state.isDisplayForm,
+        taskEditing: null,
+      });
+    }
   };
 
+  // TaskForm - Props*********************************
   onCloseFormFather = () => {
     this.setState({
       isDisplayForm: !this.state.isDisplayForm,
-    });
-  };
-
-  onShowForm = () => {
-    this.setState({
-      isDisplayForm: true,
     });
   };
 
@@ -89,6 +69,7 @@ class App extends Component {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   };
 
+  // TaskList - Props**********************************
   onUpdateStatusFather = (id) => {
     let { tasks } = this.state;
     tasks.forEach((task, index) => {
@@ -124,6 +105,12 @@ class App extends Component {
     this.onShowForm();
   };
 
+  onShowForm = () => {
+    this.setState({
+      isDisplayForm: true,
+    });
+  };
+
   render() {
     let { tasks, isDisplayForm, taskEditing } = this.state;
     let eleTaskForm = isDisplayForm ? (
@@ -142,18 +129,12 @@ class App extends Component {
             <h1>Quản Lý Công Việc</h1>
           </div>
           <Row>
-            <Col sm={4}>
-              {/* <TaskForm></TaskForm> */}
-              {eleTaskForm}
-            </Col>
+            <Col sm={4}>{eleTaskForm}</Col>
             <Col sm={isDisplayForm ? 8 : 12}>
               <Row>
                 <Col sm={12}>
                   <Button className="btn-add" variant="info" onClick={this.onToggleForm}>
                     <span className="far fa-calendar-plus"> Thêm công việc </span>
-                  </Button>
-                  <Button className="btn-add ml-2" variant="danger" onClick={this.onGenerate}>
-                    Generate
                   </Button>
                 </Col>
               </Row>

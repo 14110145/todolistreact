@@ -11,31 +11,38 @@ export default class TaskForm extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   if (this.props.task) {
-  //     this.setState({
-  //       id: this.props.task.id,
-  //       name_of_ten: this.props.task.name,
-  //       name_of_trang_thai: this.props.task.status,
-  //     });
-  //   }
-  // }
+  componentDidMount() {
+    if (this.props.task) {
+      this.setState({
+        id: this.props.task.id,
+        name_of_ten: this.props.task.name,
+        name_of_trang_thai: this.props.task.status,
+      });
+    }
+  }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.task);
-    if (nextProps.task) {
+    if (nextProps && nextProps.task) {
       this.setState({
         id: nextProps.task.id,
         name_of_ten: nextProps.task.name,
         name_of_trang_thai: nextProps.task.status,
       });
+    } else if (nextProps && !nextProps.task) {
+      this.setState({
+        id: "",
+        name_of_ten: "",
+        name_of_trang_thai: true,
+      });
     }
   }
 
+  //Btn-X close form
   onCloseFormChild = () => {
     return this.props.onCloseForm();
   };
 
+  //Btn-Huy_Bo
   onClearForm = () => {
     this.setState({
       name_of_ten: "",
@@ -44,6 +51,7 @@ export default class TaskForm extends Component {
     this.props.onCloseForm();
   };
 
+  //Input name_of_trang_thai + name_of_ten
   onChange = (event) => {
     let target = event.target;
     let name = target.name;
@@ -56,6 +64,7 @@ export default class TaskForm extends Component {
     });
   };
 
+  //Form DOM-onSubmit
   onSubmitChild = (event) => {
     event.preventDefault();
     this.props.onSubmit(this.state);
