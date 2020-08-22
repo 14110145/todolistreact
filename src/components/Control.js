@@ -9,7 +9,7 @@ export default class Control extends Component {
     return (
       <Fragment>
         <Col sm={6}>
-          <Search></Search>
+          <Search onSearch={this.props.onSearch}></Search>
         </Col>
         <Col sm={6}>
           <Sort></Sort>

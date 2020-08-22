@@ -20,6 +20,7 @@ class App extends Component {
         name: "",
         status: -1,
       },
+      keyWord: "",
     };
   }
 
@@ -124,9 +125,15 @@ class App extends Component {
       },
     });
   };
+  //Search-Control componets
+  onSearch = (keyWord) => {
+    this.setState({
+      keyWord: keyWord,
+    });
+  };
 
   render() {
-    let { tasks, isDisplayForm, taskEditing, filter } = this.state;
+    let { tasks, isDisplayForm, taskEditing, filter, keyWord } = this.state;
     if (filter.name) {
       tasks = tasks.filter((task) => {
         return task.name.toLowerCase().indexOf(filter.name.toLowerCase()) !== -1;
@@ -139,6 +146,12 @@ class App extends Component {
         return task.status === (filter.status === 1 ? true : false);
       }
     });
+    if (keyWord) {
+      console.log("have key word....");
+      tasks = tasks.filter((task) => {
+        return task.name.toLowerCase().indexOf(keyWord.toLowerCase()) !== -1;
+      });
+    }
     let eleTaskForm = isDisplayForm ? (
       <TaskForm
         onCloseForm={this.onCloseFormFather}
@@ -166,7 +179,7 @@ class App extends Component {
               </Row>
               <br />
               <Row>
-                <Control></Control>
+                <Control onSearch={this.onSearch}></Control>
               </Row>
               <br />
               <Row>
