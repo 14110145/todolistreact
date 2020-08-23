@@ -21,6 +21,10 @@ class App extends Component {
         status: -1,
       },
       keyWord: "",
+      sort: {
+        by: "name",
+        value: 1,
+      },
     };
   }
 
@@ -131,9 +135,18 @@ class App extends Component {
       keyWord: keyWord,
     });
   };
+  onSort = (by, value) => {
+    this.setState({
+      sort: {
+        by: by,
+        value: value,
+      },
+    });
+    console.log(this.state.sort);
+  };
 
   render() {
-    let { tasks, isDisplayForm, taskEditing, filter, keyWord } = this.state;
+    let { tasks, isDisplayForm, taskEditing, filter, keyWord, sort } = this.state;
     if (filter.name) {
       tasks = tasks.filter((task) => {
         return task.name.toLowerCase().indexOf(filter.name.toLowerCase()) !== -1;
@@ -147,11 +160,29 @@ class App extends Component {
       }
     });
     if (keyWord) {
-      console.log("have key word....");
       tasks = tasks.filter((task) => {
         return task.name.toLowerCase().indexOf(keyWord.toLowerCase()) !== -1;
       });
     }
+
+    if (sort.by === "name") {
+      tasks.sort((a, b) => {
+        if (a.name > b.name) {
+          return sort.value;
+        } else if (a.name < b.name) {
+          return -sort.value;
+        } else return 0;
+      });
+    } else {
+      tasks.sort((a, b) => {
+        if (a.status > b.status) {
+          return -sort.value;
+        } else if (a.status < b.status) {
+          return sort.value;
+        } else return 0;
+      });
+    }
+
     let eleTaskForm = isDisplayForm ? (
       <TaskForm
         onCloseForm={this.onCloseFormFather}
@@ -179,7 +210,7 @@ class App extends Component {
               </Row>
               <br />
               <Row>
-                <Control onSearch={this.onSearch}></Control>
+                <Control onSearch={this.onSearch} onSort={this.onSort}></Control>
               </Row>
               <br />
               <Row>

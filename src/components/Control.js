@@ -12,7 +12,7 @@ export default class Control extends Component {
           <Search onSearch={this.props.onSearch}></Search>
         </Col>
         <Col sm={6}>
-          <Sort></Sort>
+          <Sort onSort={this.props.onSort}></Sort>
         </Col>
       </Fragment>
     );

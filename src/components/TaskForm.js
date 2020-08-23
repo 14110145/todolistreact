@@ -88,7 +88,7 @@ export default class TaskForm extends Component {
               <Form.Label>Tên</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Tên công việc"
+                placeholder="Nhập tên công việc"
                 name="name_of_ten"
                 value={this.state.name_of_ten}
                 onChange={this.onChange}

@@ -45,7 +45,7 @@ export default class TaskList extends Component {
       );
     });
     return (
-      <Table striped bordered hover variant="dark">
+      <Table striped bordered hover size="sm" style={{ textAlign: "center" }}>
         <thead>
           <tr>
             <th>STT</th>
