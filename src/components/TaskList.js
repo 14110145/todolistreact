@@ -3,7 +3,9 @@ import React, { Component } from "react";
 import { Form, InputGroup, FormControl, Table } from "react-bootstrap";
 import TaskItem from "./TaskItem";
 
-export default class TaskList extends Component {
+import { connect } from "react-redux";
+
+class TaskList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -92,3 +94,11 @@ export default class TaskList extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    tasks: state.tasks,
+  };
+};
+
+export default connect(mapStateToProps, null)(TaskList);

@@ -216,7 +216,6 @@ class App extends Component {
               <Row>
                 <Col sm={12}>
                   <TaskList
-                    tasks={tasks}
                     onUpdateStatus={this.onUpdateStatusFather}
                     onDelete={this.onDelete}
                     onUpdate={this.onUpdate}
